@@ -1,0 +1,47 @@
+---
+import mouseScroll from "../assets/MouseScroll.svg"
+---
+
+<div class="fixed bottom-0 left-0 w-full z-50 flex justify-center items-center">
+    
+    <!-- stacked blur layers: strongest at bottom, fading to none at top -->
+    <div class="blur-stack" aria-hidden="true">
+        <span class="blur-layer" style="--blur: 8px; --stops: black 0%, black 10%, transparent 30%;"></span>
+        <span class="blur-layer" style="--blur: 4px;  --stops: transparent 0%, black 20%, black 30%, transparent 50%;"></span>
+        <span class="blur-layer" style="--blur: 2px;  --stops: transparent 20%, black 40%, black 50%, transparent 70%;"></span>
+        <span class="blur-layer" style="--blur: 1px;  --stops: transparent 40%, black 60%, black 70%, transparent 90%;"></span>
+        <span class="blur-layer" style="--blur: 0px;  --stops: transparent 60%, black 80%, transparent 100%;"></span>
+    </div>
+
+    <!-- The original background gradient wrapper -->
+    <div class="w-full p-8 bg-gradient-to-t from-white/60 to-transparent flex justify-center items-center relative z-10">
+        <button class="relative w-[116px] h-[40px] flex justify-center items-center rounded-5 hover:scale-105 transition-transform duration-300">
+            <svg class="absolute inset-0 w-full h-full -z-10 drop-shadow-[0px_8px_16px_rgba(255,79,0,0.60)]" viewBox="0 0 116 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 20C0 8.95431 8.96497 0 20.0238 0L37.0501 1.79336C50.9782 3.2604 65.0218 3.2604 78.9499 1.79336L95.9762 0C107.035 0 116 8.95431 116 20C116 31.0457 107.035 40 95.9762 40L78.9499 38.2066C65.0218 36.7396 50.9782 36.7396 37.0501 38.2066L20.0238 40C8.96497 40 0 31.0457 0 20Z" fill="#FF4F00"/>
+            </svg>
+            <div class="flex items-center gap-0.8 z-10">
+                <span class="mb-0.5 text-white text-lg font-bold font-antonio uppercase tracking-wide ">Scroll</span>
+                <img src={mouseScroll.src} alt="Scroll icon" class="w-5 h-5 object-contain" />
+            </div>
+        </button>
+    </div>
+</div>
+
+<style>
+  .blur-stack {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .blur-layer {
+    position: absolute;
+    inset: 0;
+    -webkit-backdrop-filter: blur(var(--blur));
+    backdrop-filter: blur(var(--blur));
+    /* Notice 'to top' instead of 'to bottom' for the reversed effect */
+    -webkit-mask-image: linear-gradient(to top, var(--stops));
+    mask-image: linear-gradient(to top, var(--stops));
+  }
+</style>

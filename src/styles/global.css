@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=DM+Serif+Display:ital@0;1&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-antonio: 'Antonio', sans-serif;
+  --font-dm-serif: 'DM Serif Display', serif;
+  --font-helvetica: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
