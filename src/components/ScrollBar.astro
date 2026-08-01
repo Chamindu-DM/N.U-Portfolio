@@ -13,20 +13,32 @@ import mouseScroll from "../assets/MouseScroll.svg"
         <span class="blur-layer" style="--blur: 0px;  --stops: transparent 60%, black 80%, transparent 100%;"></span>
     </div>
 
-    <!-- The original background gradient wrapper -->
-    <div class="w-full p-8 bg-gradient-to-t from-white/60 to-transparent flex justify-center items-center relative z-10">
-        <button class="relative w-[116px] h-[40px] flex justify-center items-center rounded-5 hover:scale-105 transition-transform duration-300">
-            <svg class="absolute inset-0 w-full h-full -z-10 drop-shadow-[0px_8px_16px_rgba(255,79,0,0.60)]" viewBox="0 0 116 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- The Interactive Track Container -->
+     <div id="scroll-container" class="w-full mx-auto px-8 relative h-16 flex items-center z-10 transition-all duration-500">
+        <!-- progress indicator -->
+         <div id="scroll-track" class="absolute left-8 right-8 h-px bg-[#FF4F00] flex justify-between items-center opacity-0 transition-opacity duration-700">
+            <!-- 6 Dots for 6 Sections -->
+            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
+            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
+            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
+            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
+            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
+            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
+         </div>
+         <!--moving button -->
+         <button id="scroll-btn" class="absolute w-[116px] h-[40px] flex justify-center items-center rounded-5 transition-all duration-300 z-20">
+            <svg class="absolute inset-0 w-full h-full -z-10 drop-shadow-[0px_4px_20px_rgba(255,79,0,0.60)]" viewBox="0 0 116 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 20C0 8.95431 8.96497 0 20.0238 0L37.0501 1.79336C50.9782 3.2604 65.0218 3.2604 78.9499 1.79336L95.9762 0C107.035 0 116 8.95431 116 20C116 31.0457 107.035 40 95.9762 40L78.9499 38.2066C65.0218 36.7396 50.9782 36.7396 37.0501 38.2066L20.0238 40C8.96497 40 0 31.0457 0 20Z" fill="#FF4F00"/>
             </svg>
-            <div class="flex items-center gap-0.8 z-10">
-                <span class="mb-0.5 text-white text-lg font-bold font-antonio uppercase tracking-wide ">Scroll</span>
-                <img src={mouseScroll.src} alt="Scroll icon" class="w-5 h-5 object-contain" />
+            <div class="flex items-center gap-2 z-10">
+                <span class="mb-0.5 text-white text-lg font-bold font-antonio uppercase tracking-wide">Scroll</span>
+                <!-- We added an ID to the icon so we can rotate it in CSS -->
+                <img id="scroll-icon" src={mouseScroll.src} alt="Scroll icon" class="w-5 h-5 object-contain transition-transform duration-700" />
             </div>
-        </button>
-    </div>
+         </button>
+     </div>
 </div>
-
+    
 <style>
   .blur-stack {
     position: absolute;
@@ -44,4 +56,51 @@ import mouseScroll from "../assets/MouseScroll.svg"
     -webkit-mask-image: linear-gradient(to top, var(--stops));
     mask-image: linear-gradient(to top, var(--stops));
   }
+
+  #scroll-container {
+    --progress: 0;
+  }
+  
+  #scroll-btn{
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #scroll-container.is-scrolling #scroll-track{
+    opacity: 1;
+  }
+
+  #scroll-container.is-scrolling #scroll-icon{
+    transform: rotate(90deg);
+  }
+
+  #scroll-container.is-scrolling #scroll-btn {
+    left: calc(32px + (var(--progress)*(100% - 116px - 64px)));
+    transform: translateX(0);
+  }
+
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', ()=> {
+        const container = document.getElementById('scroll-container');
+
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+            let progress = scrollTop / docHeight;
+            progress = Math.max(0, Math.min(1, progress));
+
+            if (scrollTop > 50){
+                container?.classList.add('is-scrolling');
+            } else {
+                container?.classList.remove('is-scrolling');
+            }
+            container?.style.setProperty('--progress', progress.toString());
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+    });
+</script>
