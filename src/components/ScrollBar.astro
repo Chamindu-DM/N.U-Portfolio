@@ -14,19 +14,12 @@ import mouseScroll from "../assets/MouseScroll.svg"
     </div>
 
     <!-- The Interactive Track Container -->
-     <div id="scroll-container" class="w-full mx-auto px-8 relative h-16 flex items-center z-10 transition-all duration-500">
-        <!-- progress indicator -->
-         <div id="scroll-track" class="absolute left-8 right-8 h-px bg-[#FF4F00] flex justify-between items-center opacity-0 transition-opacity duration-700">
-            <!-- 6 Dots for 6 Sections -->
-            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
-            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
-            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
-            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
-            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
-            <div class="size-1 bg-white rounded-full border-1 border-[#FF4F00] z-0"></div>
+     <div id="scroll-container" class="w-full mx-auto p-8 relative h-16 flex items-center z-10 transition-all duration-500">
+         <!-- progress indicator -->
+         <div id="scroll-track" class="absolute left-8 right-8 h-px bg-[#FF4F00]/40">
          </div>
          <!--moving button -->
-         <button id="scroll-btn" class="absolute w-[116px] h-[40px] flex justify-center items-center rounded-5 transition-all duration-300 z-20">
+         <button id="scroll-btn" class="absolute w-[116px] h-[40px] flex justify-center items-center rounded-5 transition-transform duration-300 z-20">
             <svg class="absolute inset-0 w-full h-full -z-10 drop-shadow-[0px_4px_20px_rgba(255,79,0,0.60)]" viewBox="0 0 116 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 20C0 8.95431 8.96497 0 20.0238 0L37.0501 1.79336C50.9782 3.2604 65.0218 3.2604 78.9499 1.79336L95.9762 0C107.035 0 116 8.95431 116 20C116 31.0457 107.035 40 95.9762 40L78.9499 38.2066C65.0218 36.7396 50.9782 36.7396 37.0501 38.2066L20.0238 40C8.96497 40 0 31.0457 0 20Z" fill="#FF4F00"/>
             </svg>
@@ -64,10 +57,16 @@ import mouseScroll from "../assets/MouseScroll.svg"
   #scroll-btn{
     left: 50%;
     transform: translateX(-50%);
+    touch-action: none; /* Prevent native touch scrolling when dragging the slider */
   }
 
-  #scroll-container.is-scrolling #scroll-track{
-    opacity: 1;
+  #scroll-track {
+    clip-path: inset(-10px 100% -10px 0);
+    transition: clip-path 800ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  #scroll-container.is-scrolling #scroll-track {
+    clip-path: inset(-10px 0 -10px 0);
   }
 
   #scroll-container.is-scrolling #scroll-icon{
@@ -82,25 +81,124 @@ import mouseScroll from "../assets/MouseScroll.svg"
 </style>
 
 <script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
     document.addEventListener('DOMContentLoaded', ()=> {
         const container = document.getElementById('scroll-container');
+        const track = document.getElementById('scroll-track');
+        const btn = document.getElementById('scroll-btn');
+        const sectionsContainer = document.getElementById('scroll-sections');
 
-        const handleScroll = () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        // Dynamic Dots Generation & IntersectionObserver
+        if (sectionsContainer && track) {
+            const sections = Array.from(sectionsContainer.children);
+            
+            // Create a dot for each section
+            sections.forEach(() => {
+                const dot = document.createElement('div');
+                dot.className = "scroll-dot absolute top-1/2 -translate-y-1/2 size-1 bg-white rounded-full border border-[#FF4F00]/50 z-0 transition-all duration-300";
+                track.appendChild(dot);
+            });
+            
+            const positionDots = () => {
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                const dots = document.querySelectorAll('.scroll-dot');
+                
+                sections.forEach((section, index) => {
+                    if (dots[index]) {
+                        // Calculate percentage position of the section
+                        let percent = section.offsetTop / maxScroll;
+                        percent = Math.max(0, Math.min(1, percent));
+                        
+                        // Set exactly where the button center will be at this scroll percentage
+                        dots[index].style.left = `calc(58px + ${percent * 100}% - ${percent * 116}px - 2px)`;
+                    }
+                });
+            };
+            
+            positionDots();
+            window.addEventListener('resize', positionDots);
 
-            let progress = scrollTop / docHeight;
+            // Highlight the active dot using IntersectionObserver
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const index = sections.indexOf(entry.target);
+                        const dots = document.querySelectorAll('.scroll-dot');
+                        
+                        // Reset all dots to white
+                        dots.forEach(d => {
+                            d.classList.remove('bg-[#FF4F00]/50', 'scale-[2]');
+                            d.classList.add('bg-white');
+                        });
+                        
+                        // Fill and scale the active dot
+                        if (dots[index]) {
+                            dots[index].classList.remove('bg-white');
+                            dots[index].classList.add('bg-[#FF4F00]', 'scale-[2]');
+                        }
+                    }
+                });
+            }, { rootMargin: "-40% 0px -40% 0px" });
+            
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // 1. Toggle the 'is-scrolling' class when we scroll past 50px
+        ScrollTrigger.create({
+            trigger: document.body,
+            start: "50px top", 
+            end: "bottom top",
+            onEnter: () => container?.classList.add('is-scrolling'),
+            onLeaveBack: () => container?.classList.remove('is-scrolling'),
+        });
+
+        // 2. Scrub the CSS variable smoothly!
+        // Changed to scrub: true for instant 1:1 sync like a native scrollbar
+        ScrollTrigger.create({
+            trigger: document.documentElement,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true, 
+            animation: gsap.to(container, { "--progress": 1, ease: "none" })
+        });
+
+        // 3. Make the button a real slider (Drag to scroll)
+        let isDragging = false;
+        
+        btn?.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            btn.setPointerCapture(e.pointerId);
+        });
+
+        btn?.addEventListener('pointermove', (e) => {
+            if (!isDragging || !container) return;
+            
+            // Calculate progress based on mouse X position relative to track
+            const rect = container.getBoundingClientRect();
+            
+            // container has 32px padding on each side. Button is 116px wide.
+            const safeTrackWidth = rect.width - 64 - 116;
+            
+            // X position relative to the start of the safe track
+            const xPos = e.clientX - rect.left - 32;
+            
+            // Calculate percentage and clamp it between 0 and 1
+            let progress = xPos / safeTrackWidth;
             progress = Math.max(0, Math.min(1, progress));
+            
+            // Calculate equivalent scroll position and tell the browser to jump there.
+            // GSAP ScrollTrigger will automatically detect this jump and animate the button to follow!
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            window.scrollTo({ top: progress * maxScroll, behavior: 'auto' });
+        });
 
-            if (scrollTop > 50){
-                container?.classList.add('is-scrolling');
-            } else {
-                container?.classList.remove('is-scrolling');
-            }
-            container?.style.setProperty('--progress', progress.toString());
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        handleScroll();
+        btn?.addEventListener('pointerup', (e) => {
+            isDragging = false;
+            btn.releasePointerCapture(e.pointerId);
+        });
     });
 </script>
