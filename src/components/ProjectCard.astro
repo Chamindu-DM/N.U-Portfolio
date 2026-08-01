@@ -1,0 +1,41 @@
+---
+interface Props {
+    dateRange: string;
+    title: string;
+    association: string;
+    iconSrc?: string;
+    description: string;
+    contribution: string[] | string; // Allow an array of strings for bullet points
+}
+
+const { dateRange, title, association, iconSrc="placeholder", description, contribution } = Astro.props;
+---
+<div class="w-full max-w-[680px] inline-flex flex-col justify-center items-center gap-6">
+    <div class="self-stretch text-justify justify-center text-[#FF4F00] text-sm font-light font-helvetica">
+        {dateRange}
+    </div>
+    <div class="self-stretch text-justify justify-center text-black text-xl font-medium font-helvetica">
+        {title}
+    </div>
+    <div class="self-stretch inline-flex justify-center items-center gap-2">
+        <img class="size-8" src={iconSrc} alt="Association Icon" />
+        <div class="flex-1 text-neutral-700 text-base font-light font-helvetica">
+            Associated with {association}
+        </div>
+    </div>
+    <div class="self-stretch text-justify">
+        <!-- Added whitespace-pre-line so that pressing 'enter' in your prop string actually creates a line break -->
+        <span class="text-black/80 text-lg/5 font-normal font-helvetica whitespace-pre-line" set:html={description}></span>
+        
+        <br/><br/>
+        <strong class="text-lg font-medium font-helvetica">Contribution:</strong>
+        
+        <!-- Render as a bulleted list -->
+        <ul class="list-disc list-outside ml-6 mt-2 text-black text-lg font-normal font-helvetica">
+            {Array.isArray(contribution) 
+                ? contribution.map((item) => <li>{item}</li>) 
+                : <li>{contribution}</li>
+            }
+        </ul>
+    </div>
+</div>

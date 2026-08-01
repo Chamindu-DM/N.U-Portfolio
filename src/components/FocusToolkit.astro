@@ -8,40 +8,55 @@ import SolidWorks from "../assets/SolidWorks.jpg"
 <div class="self-stretch px-8 py-24 inline-flex flex-col justify-center items-center gap-2">
     <div class="self-stretch px-16 flex flex-col justify-start items-center gap-16">
         <div class="self-stretch justify-start text-black text-7xl font-normal font-['Helvetica_Neue'] capitalize leading-[80px]">Research focus & toolkit.</div>
-        <div class="self-stretch inline-flex flex-col justify-start items-start md:grid md:grid-cols-3 md:grid-rows-2">
-            <div class="size-lf-stretch p-6 outline outline-1 outline-offset-[-0.50px] outline-orange-600 inline-flex flex-col justify-start items-center gap-6">
-                <div class="self-stretch  text-2xl font-medium font-['Helvetica_Neue'] capitalize">Lean manufacturing</div>
-                <div class="self-stretch  text-lg font-normal font-['Helvetica_Neue']">Reducing waste and tightening flow — redesigning how work moves through a floor.</div>
+        <div class="self-stretch w-full grid grid-cols-1 md:grid-cols-3 gap-[1px] bg-[#FF4F00] border border-[#FF4F00] text-left">
+            
+            <!-- Cell 1 -->
+            <div class="bg-white p-6 flex flex-col justify-start items-center gap-4">
+                <div class="self-stretch text-2xl font-medium font-['Helvetica_Neue'] capitalize ">Lean manufacturing</div>
+                <div class="self-stretch text-lg font-light tracking-wide font-['Helvetica_Neue'] ">Reducing waste and tightening flow — redesigning how work moves through a floor.</div>
             </div>
-            <div class="size-lf-stretch p-6 outline outline-1 outline-offset-[-0.50px] outline-orange-600 inline-flex flex-col justify-start items-center gap-6">
-                <div class="self-stretch  text-2xl font-medium font-['Helvetica_Neue'] capitalize">Simulation modeling</div>
-                <div class="self-stretch  text-lg font-normal font-['Helvetica_Neue']">Building a digital model of a system before touching the real one.</div>
+            
+            <!-- Cell 2 -->
+            <div class="bg-white p-6 flex flex-col justify-start items-center gap-4">
+                <div class="self-stretch text-2xl font-medium font-['Helvetica_Neue'] capitalize ">Simulation modeling</div>
+                <div class="self-stretch text-lg font-light tracking-wide font-['Helvetica_Neue'] ">Building a digital model of a system before touching the real one.</div>
             </div>
-            <div class="size-lf-stretch p-6 outline outline-1 outline-offset-[-0.50px] outline-orange-600 inline-flex flex-col justify-start items-center gap-6">
-                <div class="self-stretch  text-2xl font-medium font-['Helvetica_Neue'] capitalize">Operations research</div>
-                <div class="self-stretch  text-lg font-normal font-['Helvetica_Neue']">Turning operational decisions into problems that can be optimized.</div>
+            
+            <!-- Cell 3 -->
+            <div class="bg-white p-6 flex flex-col justify-start items-center gap-4">
+                <div class="self-stretch text-2xl font-medium font-['Helvetica_Neue'] capitalize ">Operations research</div>
+                <div class="self-stretch text-lg font-light tracking-wide font-['Helvetica_Neue'] ">Turning operational decisions into problems that can be optimized.</div>
             </div>
-            <div class="size-lf-stretch p-6 outline outline-1 outline-offset-[-0.50px] outline-orange-600 inline-flex flex-col justify-start items-center gap-6">
-                <div class="self-stretch  text-2xl font-medium font-['Helvetica_Neue'] capitalize">Supply chain optimization</div>
-                <div class="self-stretch  text-lg font-normal font-['Helvetica_Neue']">Designing networks that move material efficiently end to end.</div>
+            
+            <!-- Cell 4 -->
+            <div class="bg-white p-6 flex flex-col justify-start items-center gap-4">
+                <div class="self-stretch text-2xl font-medium font-['Helvetica_Neue'] capitalize ">Supply chain optimization</div>
+                <div class="self-stretch text-lg font-light tracking-wide font-['Helvetica_Neue'] ">Designing networks that move material efficiently end to end.</div>
             </div>
-            <div class="size-lf-stretch p-6 outline outline-1 outline-offset-[-0.50px] outline-orange-600 inline-flex flex-col justify-start items-center gap-6">
-                <div class="self-stretch  text-2xl font-medium font-['Helvetica_Neue'] capitalize">Production planning</div>
-                <div class="self-stretch  text-lg font-normal font-['Helvetica_Neue']">Scheduling capacity and sequencing work to match output to demand.</div>
+            
+            <!-- Cell 5 -->
+            <div class="bg-white p-6 flex flex-col justify-start items-center gap-4">
+                <div class="self-stretch text-2xl font-medium font-['Helvetica_Neue'] capitalize ">Production planning</div>
+                <div class="self-stretch text-lg font-light tracking-wide font-['Helvetica_Neue'] ">Scheduling capacity and sequencing work to match output to demand.</div>
             </div>
-            <div class="size-lf-stretch p-6 outline outline-1 outline-offset-[-0.50px] outline-orange-600 inline-flex flex-col justify-start items-center gap-6">
-                <div class="self-stretch  text-2xl font-medium font-['Helvetica_Neue'] capitalize">Sustainability</div>
-                <div class="self-stretch  text-lg font-normal font-['Helvetica_Neue']">Engineering systems that account for their own environmental cost.</div>
+            
+            <!-- Cell 6 -->
+            <div class="bg-white p-6 flex flex-col justify-start items-center gap-4">
+                <div class="self-stretch text-2xl font-medium font-['Helvetica_Neue'] capitalize ">Sustainability</div>
+                <div class="self-stretch text-lg font-light tracking-wide font-['Helvetica_Neue'] ">Engineering systems that account for their own environmental cost.</div>
             </div>
-            <div class="size-lf-stretch col-span-3 p-6 outline outline-1 outline-offset-[-0.50px] outline-orange-600 inline-flex flex-col justify-center items-center gap-6">
-                <div class="self-stretch  text-2xl font-medium font-['Helvetica_Neue'] capitalize">Software & simulation tools</div>
-                <div class="self-stretch inline-flex justify-between items-center">
-                    <img class="w-40 h-16" src={SimioLogo.src} />
-                    <img class="w-52 h-16" src={Anylogic.src} />
-                    <img class="w-56 h-16" src={AutoCad.src} />
-                    <img class="w-96 h-16" src={SolidWorks.src} />
+            
+            <!-- Cell 7 (Full Width) -->
+            <div class="bg-white md:col-span-3 p-6 flex flex-col justify-center items-center gap-4">
+                <div class="self-stretch text-2xl font-medium font-['Helvetica_Neue'] capitalize ">Software & simulation tools</div>
+                <div class="self-stretch flex flex-wrap justify-center items-center gap-8 md:justify-between w-full">
+                    <img class="h-12 md:h-16 w-auto object-contain" src={SimioLogo.src} alt="Simio" />
+                    <img class="h-12 md:h-16 w-auto object-contain" src={Anylogic.src} alt="Anylogic" />
+                    <img class="h-12 md:h-16 w-auto object-contain" src={AutoCad.src} alt="AutoCAD" />
+                    <img class="h-12 md:h-16 w-auto object-contain" src={SolidWorks.src} alt="SolidWorks" />
                 </div>
             </div>
+
         </div>
     </div>
 </div>

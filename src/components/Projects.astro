@@ -1,0 +1,71 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+import PeraLogo from "../assets/PeraUniLogo.png";
+import mSHLogo from "../assets/MSHLogo.png";
+---
+
+<div
+    class="self-stretch px-8 py-24 inline-flex flex-col justify-center items-center gap-2"
+>
+    <div
+        class="self-stretch px-16 flex flex-col justify-start items-center gap-16"
+    >
+        <div
+            class="self-stretch justify-start text-black text-7xl font-normal font-['Helvetica_Neue'] capitalize leading-[80px]"
+        >
+            Projects.
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-24">
+            <ProjectCard
+                        dateRange="DEC 2024 – OCT 2025"
+                        title="Remaining Useful Lifetime Prediction of Bearings using Machine Learning"
+                        association="University of Peradeniya"
+                        iconSrc={PeraLogo.src}
+                        description="This project focuses on creating a predictive maintenance system for bearings. It addresses the issues that arise from sudden bearing failures. The system aims to predict possible failures before they occur. Consequently, downtime can be minimized, and unnecessary maintenance costs can be reduced.
+
+                        This research focused on ML models that can be used to predict failures using vibration data. 
+                        
+                        The project is supervised by <a href='https://www.researchgate.net/profile/Achala-Pallegedara-2' target='_blank' class='text-blue-600 hover:text-blue-800 hover:underline font-normal'>Dr. Achala Pallegedara</a>."
+                        contribution={[
+                            "Led the project team and managed the overall project.",
+                            "Conducted a comprehensive literature review on predictive maintenance systems.",
+                            "Developed a TCNN model and predicted the Remaining Useful Life (RUL) using sample data from the PRONOSTIA platform."
+                        ]}
+            />
+            <ProjectCard
+                        dateRange="NOV 2024 – FEB 2025"
+                        title="Machine Learning–Based Bed Census Forecasting at a Small Healthcare Facility"
+                        association="University of Peradeniya"
+                        iconSrc={PeraLogo.src}
+                        description="This project was primarily conducted by <a href='https://www.researchgate.net/profile/Dinusha-Bandara-2' target='_blank' class='text-blue-600 hover:text-blue-800 hover:underline font-normal'>Miss Dinusha Bandara</a> and supervised by <a href='https://www.researchgate.net/profile/Chanaka-Senanayake' target='_blank' class='text-blue-600 hover:text-blue-800 hover:underline font-normal'>Dr. Chanaka Senanayake</a>.
+
+                            I had the privilege of participating in this project to further develop my research skills.
+
+                            The forecasting was primarily conducted using the K-SVR methodology. The K-SVR method combines K-means clustering with Support Vector Regression (SVR) to enhance forecasting. 
+
+                            Furthermore, performance measures such as RMSE, MAE, MAPE, and Error Variance were obtained. These K-SVR measures were then compared with the performance metrics obtained from the ARIMA model and Exponential Smoothing Forecasting."
+                        contribution={[
+                            "Forecasted using exponential smoothing and simple moving averages in Python, and provided the resulting analysis."
+                        ]}
+            />
+            <ProjectCard
+                        dateRange="Jul 2024 – Oct 2024"
+                        title="Reducing Waste and Improving Processes in a Paper Sack Manufacturing Factory"
+                        association="MSH Packaging Industries (Pvt) Ltd, Sri Lanka"
+                        iconSrc={mSHLogo.src}
+                        description="I undertook a process improvement project during my industrial training period. <a href='https://www.linkedin.com/in/ridmi-weerasinghe-019343280/' target='_blank' class='text-blue-600 hover:text-blue-800 hover:underline font-normal'>Ridmi Weerasinghe</a>, <a href='https://www.linkedin.com/in/sajitha-weeraman-86514223a/' target='_blank' class='text-blue-600 hover:text-blue-800 hover:underline font-normal'>Sajitha Weeraman</a>, and I collaborated as team members on this project. 
+
+                            The project was supervised by <a href='https://www.researchgate.net/profile/Pramila-Gamage' target='_blank' class='text-blue-600 hover:text-blue-800 hover:underline font-normal'>Dr. Pramila Gamage</a> and <a href='https://www.researchgate.net/profile/Chanaka-Senanayake' target='_blank' class='text-blue-600 hover:text-blue-800 hover:underline font-normal'>Dr. Chanaka Senanayake</a>. Additionally, <a href='https://www.researchgate.net/profile/Chandika-Wickramatillake' target='_blank' class='text-blue-600 hover:text-blue-800 hover:underline font-normal'>Dr. Chandika Wickramatillake</a> served as the project consultant.
+
+                            As my first industry-focused project, it provided me with a wealth of knowledge. Skills such as project management, effective communication, and managing stakeholder expectations in a timely manner were particularly significant."
+                        contribution={[
+                            "Analyzed data and provided actionable insights.",
+                            "Identified operational issues through systematic observation.",
+                            "Determined potential root causes using methodologies such as Fishbone diagrams and the 5 Whys.",
+                            "Presented well-reasoned improvement proposals to company stakeholders."
+                        ]}
+            />
+        </div>
+        
+    </div>
+</div>

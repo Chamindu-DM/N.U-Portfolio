@@ -1,39 +1,68 @@
 ---
-import grid from '../assets/Grid.svg';
+import grid from "../assets/Grid.svg";
 import Portrait1 from "../assets/Sumudu_Nadeera.jpg";
 import Portrait2 from "../assets/Nadeera_UdumullageToastMaster.jpg";
 import Portrait3 from "../assets/Nadeera_ToastMaster.jpg";
 import Portrait4 from "../assets/Nadeera_Udumullage.jpg";
 ---
 
-<section class="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
-    <img src={grid.src} alt="" class="absolute inset-0 w-full h-full object-cover -z-10"/>
-    <div class="self-stretch px-8 py-24 inline-flex flex-col justify-center items-center gap-2">
-        <div class="self-stretch flex flex-col justify-start items-center gap-16">
+<section
+    class="relative min-h-screen w-full flex items-center justify-center overflow-hidden"
+>
+    <img
+        src={grid.src}
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover -z-10"
+    />
+    <div
+        class="self-stretch px-8 py-24 inline-flex flex-col justify-center items-center gap-2"
+    >
+        <div
+            class="self-stretch flex flex-col justify-start items-center gap-16"
+        >
             <div class="self-stretch text-center justify-start">
-                <span class="text-black text-7xl font-medium font-helvetica leading-[80px]">“The two things I'd choose to do,<br/>every single day:
+                <span
+                    class="text-black text-7xl font-medium font-helvetica leading-[80px]"
+                    >“The two things I'd choose to do,<br />every single day:
                 </span>
-                <span class="italic text-orange-600 text-7xl font-normal font-dm-serif leading-[80px]"> teach</span>
-                <span class="text-black text-7xl font-medium font-helvetica leading-[80px]">, and </span>
-                <span class="italic text-orange-600 text-7xl font-normal font-dm-serif leading-[80px]">research</span>
+                <span
+                    class="italic text-[#FF4F00] text-7xl font-normal font-dm-serif leading-[80px]"> teach</span>
+                <span class="text-black text-7xl font-medium font-helvetica leading-[80px]">, and
+                </span>
+                <span
+                    class="italic text-[#FF4F00] text-7xl font-normal font-dm-serif leading-[80px]"> research</span>
                 <span class="text-black text-7xl font-medium font-helvetica leading-[80px]">.”</span>
             </div>
             <div class="inline-flex justify-center items-center -space-x-6">
-                <img class="size-48 relative origin-top-left rotate-[4deg] rounded-2xl portrait-shadow" src={Portrait1.src} alt="Nadeera Udumullage">
-                <img class="size-48 relative origin-top-left rotate-[-4deg] rounded-2xl portrait-shadow" src={Portrait3.src} alt="Nadeera Udumullage">
-                <img class="size-48 relative origin-top-left rotate-[4deg] rounded-2xl portrait-shadow" src={Portrait2.src} alt="Nadeera Udumullage">
-                <img class="size-48 relative origin-top-left rotate-[-4deg] rounded-2xl portrait-shadow" src={Portrait4.src} alt="Nadeera Udumullage">
+                <img
+                    class="size-48 relative origin-top-left rotate-[4deg] rounded-2xl portrait-shadow"
+                    src={Portrait1.src}
+                    alt="Nadeera Udumullage"
+                />
+                <img
+                    class="size-48 relative origin-top-left rotate-[-4deg] rounded-2xl portrait-shadow"
+                    src={Portrait3.src}
+                    alt="Nadeera Udumullage"
+                />
+                <img
+                    class="size-48 relative origin-top-left rotate-[4deg] rounded-2xl portrait-shadow"
+                    src={Portrait2.src}
+                    alt="Nadeera Udumullage"
+                />
+                <img
+                    class="size-48 relative origin-top-left rotate-[-4deg] rounded-2xl portrait-shadow"
+                    src={Portrait4.src}
+                    alt="Nadeera Udumullage"
+                />
             </div>
         </div>
     </div>
-
 </section>
 
-
 <style>
-  .portrait-shadow {
-    box-shadow: 
-      0 48px 48px rgba(180, 180, 180, 0.20),
-      0 8px 20px rgba(0, 0, 0, 0.2);
-  }
+    .portrait-shadow {
+        box-shadow:
+            0 48px 48px rgba(180, 180, 180, 0.2),
+            0 8px 20px rgba(0, 0, 0, 0.2);
+    }
 </style>
