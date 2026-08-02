@@ -2,6 +2,18 @@
 import Header from "../components/Header.astro"
 import ScrollBar from "../components/ScrollBar.astro"
 import "../styles/global.css"
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+}
+
+const { 
+	title = "Nadeera Udumullage | Manufacturing and Industrial Engineering", 
+	description = "Nadeera Udumullage is a Manufacturing and Industrial Engineering undergraduate at the University of Peradeniya, focusing on lean manufacturing, simulation modeling, and operations research.",
+	image = "/favicon.svg"
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -12,7 +24,28 @@ import "../styles/global.css"
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
+		
+		<!-- SEO Meta Tags -->
+		<meta name="description" content={description} />
+		<meta name="keywords" content="Nadeera Udumullage, Manufacturing Engineering, Industrial Engineering, Lean Manufacturing, Simulation Modeling, Operations Research, University of Peradeniya, Sri Lanka, Portfolio" />
+		<meta name="author" content="Nadeera Udumullage" />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={new URL(image, Astro.url)} />
+		
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={new URL(image, Astro.url)} />
+		
+		<link rel="canonical" href={Astro.url} />
 		<!-- Lenis for smooth momentum scrolling -->
 		<script is:inline src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 	</head>
