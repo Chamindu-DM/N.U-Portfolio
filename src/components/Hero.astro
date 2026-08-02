@@ -15,42 +15,42 @@ import Portrait4 from "../assets/Nadeera_Udumullage.jpg";
         class="absolute inset-0 w-full h-full object-cover -z-10"
     />
     <div
-        class="self-stretch px-8 py-24 inline-flex flex-col justify-center items-center gap-2"
+        class="self-stretch px-4 md:px-8 py-12 md:py-24 inline-flex flex-col justify-center items-center gap-2"
     >
         <div
-            class="self-stretch flex flex-col justify-start items-center gap-16"
+            class="self-stretch flex flex-col justify-start items-center gap-12 md:gap-16"
         >
-            <div class="self-stretch text-center justify-start">
+            <div id="hero-title" class="self-stretch text-center justify-start">
                 <span
-                    class="text-black text-7xl font-medium font-helvetica leading-[80px]"
+                    class="text-black text-4xl md:text-7xl font-medium font-helvetica leading-[50px] md:leading-[80px]"
                     >“The two things I'd choose to do,<br />every single day:
                 </span>
                 <span
-                    class="italic text-[#FF4F00] text-7xl font-normal font-dm-serif leading-[80px]"> teach</span>
-                <span class="text-black text-7xl font-medium font-helvetica leading-[80px]">, and
+                    class="italic text-[#FF4F00] text-4xl md:text-7xl font-normal font-dm-serif leading-[50px] md:leading-[80px]"> teach</span>
+                <span class="text-black text-4xl md:text-7xl font-medium font-helvetica leading-[50px] md:leading-[80px]">, and
                 </span>
                 <span
-                    class="italic text-[#FF4F00] text-7xl font-normal font-dm-serif leading-[80px]"> research</span>
-                <span class="text-black text-7xl font-medium font-helvetica leading-[80px]">.”</span>
+                    class="italic text-[#FF4F00] text-4xl md:text-7xl font-normal font-dm-serif leading-[50px] md:leading-[80px]"> research</span>
+                <span class="text-black text-4xl md:text-7xl font-medium font-helvetica leading-[50px] md:leading-[80px]">.”</span>
             </div>
-            <div class="inline-flex justify-center items-center -space-x-6">
+            <div class="grid grid-cols-2 md:flex md:flex-row justify-center items-center gap-4 md:gap-0 md:-space-x-6">
                 <img
-                    class="size-48 relative origin-top-left rotate-[4deg] rounded-2xl portrait-shadow"
+                    class="size-32 md:size-48 relative origin-top-left md:rotate-[4deg] rounded-2xl portrait-shadow"
                     src={Portrait1.src}
                     alt="Nadeera Udumullage"
                 />
                 <img
-                    class="size-48 relative origin-top-left rotate-[-4deg] rounded-2xl portrait-shadow"
+                    class="size-32 md:size-48 relative origin-top-left md:rotate-[-4deg] rounded-2xl portrait-shadow"
                     src={Portrait3.src}
                     alt="Nadeera Udumullage"
                 />
                 <img
-                    class="size-48 relative origin-top-left rotate-[4deg] rounded-2xl portrait-shadow"
+                    class="size-32 md:size-48 relative origin-top-left md:rotate-[4deg] rounded-2xl portrait-shadow"
                     src={Portrait2.src}
                     alt="Nadeera Udumullage"
                 />
                 <img
-                    class="size-48 relative origin-top-left rotate-[-4deg] rounded-2xl portrait-shadow"
+                    class="size-32 md:size-48 relative origin-top-left md:rotate-[-4deg] rounded-2xl portrait-shadow"
                     src={Portrait4.src}
                     alt="Nadeera Udumullage"
                 />
@@ -66,3 +66,30 @@ import Portrait4 from "../assets/Nadeera_Udumullage.jpg";
             0 8px 20px rgba(0, 0, 0, 0.2);
     }
 </style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    document.addEventListener('DOMContentLoaded', ()=> {
+        const title = document.getElementById('hero-title');
+        
+        if(title) {
+            // Fade out and translate Y down to perfectly counteract the scroll, 
+            // making it appear "fixed" in place without breaking the layout!
+            gsap.to(title, {
+                opacity: 0,
+                filter: "blur(20px)",
+                y: 300, 
+                scrollTrigger: {
+                    trigger: document.documentElement,
+                    start: "top top", // Start animation when page is at the very top
+                    end: "300px top", // End animation when scrolled 300px down
+                    scrub: true // Locks the animation strictly to the scrollbar movement
+                }
+            });
+        }
+    });
+</script>

@@ -13,20 +13,25 @@ import mouseScroll from "../assets/MouseScroll.svg"
         <span class="blur-layer" style="--blur: 0px;  --stops: transparent 60%, black 80%, transparent 100%;"></span>
     </div>
 
-    <!-- The original background gradient wrapper -->
-    <div class="w-full p-8 bg-gradient-to-t from-white/60 to-transparent flex justify-center items-center relative z-10">
-        <button class="relative w-[116px] h-[40px] flex justify-center items-center rounded-5 hover:scale-105 transition-transform duration-300">
-            <svg class="absolute inset-0 w-full h-full -z-10 drop-shadow-[0px_8px_16px_rgba(255,79,0,0.60)]" viewBox="0 0 116 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- The Interactive Track Container -->
+     <div id="scroll-container" class="w-full mx-auto p-8 relative h-16 flex items-center z-10 transition-all duration-500">
+         <!-- progress indicator -->
+         <div id="scroll-track" class="absolute left-8 right-8 h-px bg-[#FF4F00]/40">
+         </div>
+         <!--moving button -->
+         <button id="scroll-btn" class="absolute w-[116px] h-[40px] flex justify-center items-center rounded-5 transition-transform duration-300 z-20">
+            <svg class="absolute inset-0 w-full h-full -z-10 drop-shadow-[0px_4px_20px_rgba(255,79,0,0.60)]" viewBox="0 0 116 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 20C0 8.95431 8.96497 0 20.0238 0L37.0501 1.79336C50.9782 3.2604 65.0218 3.2604 78.9499 1.79336L95.9762 0C107.035 0 116 8.95431 116 20C116 31.0457 107.035 40 95.9762 40L78.9499 38.2066C65.0218 36.7396 50.9782 36.7396 37.0501 38.2066L20.0238 40C8.96497 40 0 31.0457 0 20Z" fill="#FF4F00"/>
             </svg>
-            <div class="flex items-center gap-0.8 z-10">
-                <span class="mb-0.5 text-white text-lg font-bold font-antonio uppercase tracking-wide ">Scroll</span>
-                <img src={mouseScroll.src} alt="Scroll icon" class="w-5 h-5 object-contain" />
+            <div class="flex items-center gap-2 z-10">
+                <span class="mb-0.5 text-white text-lg font-bold font-antonio uppercase tracking-wide">Scroll</span>
+                <!-- We added an ID to the icon so we can rotate it in CSS -->
+                <img id="scroll-icon" src={mouseScroll.src} alt="Scroll icon" class="w-5 h-5 object-contain transition-transform duration-700" />
             </div>
-        </button>
-    </div>
+         </button>
+     </div>
 </div>
-
+    
 <style>
   .blur-stack {
     position: absolute;
@@ -44,4 +49,177 @@ import mouseScroll from "../assets/MouseScroll.svg"
     -webkit-mask-image: linear-gradient(to top, var(--stops));
     mask-image: linear-gradient(to top, var(--stops));
   }
+
+  #scroll-container {
+    --progress: 0;
+  }
+  
+  #scroll-btn{
+    left: 50%;
+    transform: translateX(-50%);
+    touch-action: none; /* Prevent native touch scrolling when dragging the slider */
+  }
+
+  #scroll-track {
+    opacity: 0;
+    transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  #scroll-container.is-scrolling #scroll-track {
+    opacity: 1;
+  }
+
+  #scroll-container.is-scrolling #scroll-icon{
+    transform: rotate(90deg);
+  }
+
+  #scroll-container.is-scrolling #scroll-btn {
+    left: calc(32px + (var(--progress)*(100% - 116px - 64px)));
+    transform: translateX(0);
+  }
+
 </style>
+
+<script>
+    import { e164 } from "astro:schema";
+import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    document.addEventListener('DOMContentLoaded', ()=> {
+        const container = document.getElementById('scroll-container');
+        const track = document.getElementById('scroll-track');
+        const btn = document.getElementById('scroll-btn');
+        const sectionsContainer = document.getElementById('scroll-sections');
+
+        // Dynamic Dots Generation & IntersectionObserver
+        if (sectionsContainer && track) {
+            const sections = Array.from(sectionsContainer.children).filter(el => !el.matches('style, script'));
+            
+            // Create a dot for each section
+            const sectionNames = ['HOME', 'ABOUT', 'RESEARCH FOCUS', 'PROJECTS', 'EXPERIENCE', 'CONTACT'];
+            
+            sections.forEach((section, idx) => {
+                const dot = document.createElement('div');
+                dot.className = "scroll-dot absolute top-1/2 -translate-y-1/2 size-1 bg-white rounded-full border border-[#FF4F00]/50 z-0 transition-all duration-300 group cursor-pointer hover:bg-[#FF4F00] hover:scale-[2] before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-8 before:h-8";
+                
+                // Add click-to-scroll functionality
+                dot.addEventListener('click', () => {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                });
+
+                // Tooltip container (pure CSS for dynamic width, perfectly matching the design)
+                const tooltip = document.createElement('div');
+                tooltip.className = "absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-[#FF4F00] text-white text-xs font-bold font-antonio tracking-wider uppercase px-1 pb-0.5 pt-0.8 rounded-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none drop-shadow-md z-30 scale-50 group-hover:scale-80 origin-bottom";
+                tooltip.innerText = sectionNames[idx] || `Section ${idx + 1}`;
+
+                // Tooltip arrow with the exact SVG rounded-tip path from Figma
+                const arrow = document.createElement('div');
+                arrow.className = "absolute top-[99%] left-1/2 -translate-x-1/2 w-[8px] h-[4px]";
+                arrow.innerHTML = `<svg viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 0H12L9.5777 4.8446C8.1036 7.7928 3.8964 7.7928 2.4223 4.8446L0 0Z" fill="#FF4F00"/></svg>`;
+                
+                tooltip.appendChild(arrow);
+                dot.appendChild(tooltip);
+                track.appendChild(dot);
+            });
+            
+            const positionDots = () => {
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                const dots = document.querySelectorAll('.scroll-dot');
+                
+                sections.forEach((section, index) => {
+                    if (dots[index]) {
+                        // Calculate percentage position of the section
+                        let percent = section.offsetTop / maxScroll;
+                        percent = Math.max(0, Math.min(1, percent));
+                        
+                        // Set exactly where the button center will be at this scroll percentage
+                        dots[index].style.left = `calc(58px + ${percent * 100}% - ${percent * 116}px - 2px)`;
+                    }
+                });
+            };
+            
+            positionDots();
+            window.addEventListener('resize', positionDots);
+
+            // Highlight the active dot using IntersectionObserver
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const index = sections.indexOf(entry.target);
+                        const dots = document.querySelectorAll('.scroll-dot');
+                        
+                        // Reset all dots to white
+                        dots.forEach(d => {
+                            d.classList.remove('bg-[#FF4F00]/50', 'scale-[2]');
+                            d.classList.add('bg-white');
+                        });
+                        
+                        // Fill and scale the active dot
+                        if (dots[index]) {
+                            dots[index].classList.remove('bg-white');
+                            dots[index].classList.add('bg-[#FF4F00]', 'scale-[2]');
+                        }
+                    }
+                });
+            }, { rootMargin: "-40% 0px -40% 0px" });
+            
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // 1. Toggle the 'is-scrolling' class when we scroll past 50px
+        ScrollTrigger.create({
+            trigger: document.body,
+            start: "50px top", 
+            end: "bottom top",
+            onEnter: () => container?.classList.add('is-scrolling'),
+            onLeaveBack: () => container?.classList.remove('is-scrolling'),
+        });
+
+        // 2. Scrub the CSS variable smoothly!
+        // Changed to scrub: true for instant 1:1 sync like a native scrollbar
+        ScrollTrigger.create({
+            trigger: document.documentElement,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true, 
+            animation: gsap.to(container, { "--progress": 1, ease: "none" })
+        });
+
+        // 3. Make the button a real slider (Drag to scroll)
+        let isDragging = false;
+        
+        btn?.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            btn.setPointerCapture(e.pointerId);
+        });
+
+        btn?.addEventListener('pointermove', (e) => {
+            if (!isDragging || !container) return;
+            
+            // Calculate progress based on mouse X position relative to track
+            const rect = container.getBoundingClientRect();
+            
+            // container has 32px padding on each side. Button is 116px wide.
+            const safeTrackWidth = rect.width - 64 - 116;
+            
+            // X position relative to the start of the safe track
+            const xPos = e.clientX - rect.left - 32;
+            
+            // Calculate percentage and clamp it between 0 and 1
+            let progress = xPos / safeTrackWidth;
+            progress = Math.max(0, Math.min(1, progress));
+            
+            // Calculate equivalent scroll position and tell the browser to jump there.
+            // GSAP ScrollTrigger will automatically detect this jump and animate the button to follow!
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            window.scrollTo({ top: progress * maxScroll, behavior: 'auto' });
+        });
+
+        btn?.addEventListener('pointerup', (e) => {
+            isDragging = false;
+            btn.releasePointerCapture(e.pointerId);
+        });
+    });
+</script>

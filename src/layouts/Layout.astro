@@ -13,6 +13,8 @@ import "../styles/global.css"
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro Basics</title>
+		<!-- Lenis for smooth momentum scrolling -->
+		<script is:inline src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 	</head>
 	<body class="bg-white">
 		<Header/>
@@ -20,3 +22,65 @@ import "../styles/global.css"
 		<ScrollBar/>
 	</body>
 </html>
+
+<style is:global>
+	.typewriter-title::after {
+		content: '|';
+		color: #FF4F00;
+		animation: blink 1s step-end infinite;
+	}
+	.typewriter-title.typing-complete::after {
+		display: none;
+	}
+	@keyframes blink {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0; }
+	}
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { TextPlugin } from "gsap/TextPlugin";
+
+    gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+    document.addEventListener('DOMContentLoaded', ()=> {
+        // Initialize Lenis for smooth scrolling
+        const lenis = new window.Lenis();
+        
+        // Sync Lenis with GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+        
+        // Tell GSAP to use Lenis's raf (requestAnimationFrame)
+        gsap.ticker.add((time)=>{
+            lenis.raf(time * 1000);
+        });
+        
+        // Turn off GSAP's lag smoothing to avoid conflicts with Lenis
+        gsap.ticker.lagSmoothing(0);
+
+        const titles = document.querySelectorAll('.typewriter-title');
+        
+        titles.forEach(title => {
+            const originalText = title.textContent?.trim() || "";
+            // Clear the text initially so it's ready to type
+            title.textContent = "";
+            
+            gsap.to(title, {
+                text: originalText,
+                // Adjust duration based on text length for consistent typing speed
+                duration: Math.max(1, originalText.length * 0.05),
+                ease: "none",
+                onStart: () => title.classList.remove('typing-complete'),
+                onComplete: () => title.classList.add('typing-complete'),
+                onReverseComplete: () => title.classList.remove('typing-complete'),
+                scrollTrigger: {
+                    trigger: title,
+                    start: "top 85%", // Start typing when title is 15% from bottom of screen
+                    toggleActions: "play none none reverse" // Type in on scroll down, un-type on scroll up
+                }
+            });
+        });
+    });
+</script>
