@@ -6,3 +6,13 @@
   --font-dm-serif: 'DM Serif Display', serif;
   --font-helvetica: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
+
+/* Hide the native browser scrollbar globally */
+html, body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}

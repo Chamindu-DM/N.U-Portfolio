@@ -61,12 +61,12 @@ import mouseScroll from "../assets/MouseScroll.svg"
   }
 
   #scroll-track {
-    clip-path: inset(-10px 100% -10px 0);
-    transition: clip-path 800ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   #scroll-container.is-scrolling #scroll-track {
-    clip-path: inset(-10px 0 -10px 0);
+    opacity: 1;
   }
 
   #scroll-container.is-scrolling #scroll-icon{
@@ -81,7 +81,8 @@ import mouseScroll from "../assets/MouseScroll.svg"
 </style>
 
 <script>
-    import { gsap } from "gsap";
+    import { e164 } from "astro:schema";
+import { gsap } from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
 
     gsap.registerPlugin(ScrollTrigger);
@@ -94,12 +95,32 @@ import mouseScroll from "../assets/MouseScroll.svg"
 
         // Dynamic Dots Generation & IntersectionObserver
         if (sectionsContainer && track) {
-            const sections = Array.from(sectionsContainer.children);
+            const sections = Array.from(sectionsContainer.children).filter(el => !el.matches('style, script'));
             
             // Create a dot for each section
-            sections.forEach(() => {
+            const sectionNames = ['HOME', 'ABOUT', 'RESEARCH FOCUS', 'PROJECTS', 'EXPERIENCE', 'CONTACT'];
+            
+            sections.forEach((section, idx) => {
                 const dot = document.createElement('div');
-                dot.className = "scroll-dot absolute top-1/2 -translate-y-1/2 size-1 bg-white rounded-full border border-[#FF4F00]/50 z-0 transition-all duration-300";
+                dot.className = "scroll-dot absolute top-1/2 -translate-y-1/2 size-1 bg-white rounded-full border border-[#FF4F00]/50 z-0 transition-all duration-300 group cursor-pointer hover:bg-[#FF4F00] hover:scale-[2] before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-8 before:h-8";
+                
+                // Add click-to-scroll functionality
+                dot.addEventListener('click', () => {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                });
+
+                // Tooltip container (pure CSS for dynamic width, perfectly matching the design)
+                const tooltip = document.createElement('div');
+                tooltip.className = "absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-[#FF4F00] text-white text-xs font-bold font-antonio tracking-wider uppercase px-1 pb-0.5 pt-0.8 rounded-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none drop-shadow-md z-30 scale-50 group-hover:scale-80 origin-bottom";
+                tooltip.innerText = sectionNames[idx] || `Section ${idx + 1}`;
+
+                // Tooltip arrow with the exact SVG rounded-tip path from Figma
+                const arrow = document.createElement('div');
+                arrow.className = "absolute top-[99%] left-1/2 -translate-x-1/2 w-[8px] h-[4px]";
+                arrow.innerHTML = `<svg viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 0H12L9.5777 4.8446C8.1036 7.7928 3.8964 7.7928 2.4223 4.8446L0 0Z" fill="#FF4F00"/></svg>`;
+                
+                tooltip.appendChild(arrow);
+                dot.appendChild(tooltip);
                 track.appendChild(dot);
             });
             
