@@ -1,23 +1,236 @@
 ---
-
+const milestones = [
+    {
+        date: "2007",
+        title: "Where It All Began",
+        subtitle: "Stepping into Bandaranayake Maha Vidyalaya, Payagala.",
+        description:
+            "I studied at Bandaranayake Maha Vidyalaya until I sat for my Grade 5 Scholarship Examination. It holds many fond memories for me—and it was where I scored 183 marks in the examination.",
+    },
+    {
+        date: "2012 — January",
+        title: "Starting a New Chapter",
+        subtitle: "Entering Royal College, Colombo 07.",
+        description:
+            "After successfully passing the Grade 5 Scholarship Examination, I began an exciting new journey at Royal College as a Grade 6 student. From 2012 to 2020, it was my academic home, where I completed both my Ordinary and Advanced Levels.",
+    },
+    {
+        date: "2017 — December",
+        title: "Completing O/Levels at Royal College",
+        description:
+            "From Grade 6 to Grade 11, I was more interested in playing with friends than academics. In the final term of Grade 11, I found my focus, moving from 14th to 2nd in my class—and earning 9 As at my O/Levels.",
+    },
+    {
+        date: "2020 — August",
+        title: "Completing A/Levels at Royal College",
+        description:
+            "I chose the Physical Science stream, and this period changed my life. I learned to take responsibility and earned 3 As with a Z-score of 2.0479. I wanted to become a lecturer and study physical science, but I was equally drawn to computer engineering. I found myself between two worlds.",
+    },
+    {
+        date: "2022 — February",
+        title: "Unlocking New Horizons",
+        subtitle: "Admission to the University of Peradeniya.",
+        description:
+            "Achieving 3 As opened the door to one of Sri Lanka's most prestigious engineering institutions: the University of Peradeniya. Confident that I could pursue computer engineering, I chose engineering over physical science.",
+    },
+    {
+        date: "2023 — June",
+        title: "Life Has a Way of Reminding You",
+        description:
+            "At the end of my first year, I realised my original plan would not come true. My GPA was 3.05 after two semesters, while the computer engineering cutoff was 3.56. I had done everything I knew how to do, yet lost my confidence—and the freedom to choose my path.",
+    },
+    {
+        date: "2023 — November",
+        title: "Life Gives You Another Round",
+        subtitle: "Entering the Manufacturing & Industrial Engineering pathway.",
+        description:
+            "I entered DMIE feeling as though I had nothing, but I knew this was my second chance. I stepped away from distractions and worked day and night. Industrial engineering was about making things right—and once I understood it, I knew it was my kind of work.",
+    },
+    {
+        date: "2024 — November",
+        title: "Coming Back Stronger",
+        description:
+            "After a difficult period, I earned a 3.56 GPA in my third semester and 3.95 in my fourth. With my confidence restored, I began building myself in new ways.",
+    },
+    {
+        date: "2025 — April",
+        title: "Not Just Academics",
+        description:
+            "My dream of becoming a lecturer came alive again, but I now understood that the journey required more than academics. I joined Toastmasters to strengthen my leadership and public speaking, helped revive and restructure our department society, and continued developing both technical and soft skills.",
+    },
+    {
+        date: "Now",
+        title: "Earned It, but Never Forgot Where I Came From",
+        description:
+            "I currently hold a 3.68 GPA—the second-highest in my department. I am the past president of our newly established Industrial & Systems Engineering Society and secretary of Panadura Toastmasters Club. Alongside it all, I have continued teaching tuition classes since 2020, helping my parents financially.",
+    },
+];
 ---
-<div
-    class="self-stretch px-4 md:px-8 py-12 md:py-24 inline-flex flex-col justify-center items-center gap-2"
+
+<section
+    id="journey"
+    class="w-full px-4 md:px-8 py-12 md:py-24 bg-white flex flex-col justify-center items-center"
+    aria-labelledby="journey-title"
 >
-    <div
-        class="self-stretch px-4 md:px-16 flex flex-col justify-start items-center gap-8 md:gap-16"
-    >
+    <div class="w-full px-4 md:px-16 flex flex-col items-center gap-8 md:gap-16">
         <div
-            class="typewriter-title min-h-[80px] self-stretch justify-start text-black text-5xl md:text-7xl font-normal font-['Helvetica_Neue'] capitalize leading-[60px] md:leading-[80px]"
+            id="journey-title"
+            class="typewriter-title min-h-[80px] w-full text-black text-5xl md:text-7xl font-normal font-helvetica leading-[60px] md:leading-[80px]"
         >
-            Work & Education.
+            My journey.
         </div>
-        <div>
 
+        <div class="timeline relative w-full max-w-6xl">
+            <span
+                class="timeline-track absolute top-0 bottom-0 left-[7px] md:left-1/2 w-px bg-black/10 md:-translate-x-1/2"
+                aria-hidden="true"
+            >
+                <span class="timeline-progress block w-full h-full origin-top bg-[#FF4F00]"></span>
+            </span>
 
+            <ol class="w-full list-none">
+                {
+                    milestones.map((milestone, index) => (
+                        <li
+                            class:list={[
+                                "timeline-item relative grid grid-cols-[15px_1fr] md:grid-cols-[1fr_31px_1fr] gap-x-5 md:gap-x-8 pb-14 md:pb-20 last:pb-0",
+                                index % 2 === 0 ? "timeline-left" : "timeline-right",
+                            ]}
+                        >
+                        <span
+                            class="timeline-dot col-start-1 md:col-start-2 row-start-1 justify-self-center mt-2 size-[15px] rounded-full border-4 border-white bg-[#FF4F00] ring-1 ring-[#FF4F00] z-10"
+                            aria-hidden="true"
+                        ></span>
 
+                        <article
+                            class:list={[
+                                "timeline-content col-start-2 md:row-start-1 flex flex-col gap-3",
+                                index % 2 === 0
+                                    ? "md:col-start-1 md:text-right md:items-end"
+                                    : "md:col-start-3 md:text-left md:items-start",
+                            ]}
+                        >
+                            <p class="text-[#FF4F00] text-sm font-medium font-helvetica uppercase tracking-[0.18em]">
+                                {milestone.date}
+                            </p>
+                            <div class="flex flex-col gap-1">
+                                <h3 class="text-black text-2xl md:text-3xl font-medium font-helvetica leading-tight">
+                                    {milestone.title}
+                                </h3>
+                                {
+                                    milestone.subtitle && (
+                                        <p class="text-black/55 text-lg md:text-xl italic font-dm-serif">
+                                            {milestone.subtitle}
+                                        </p>
+                                    )
+                                }
+                            </div>
+                            <p class="max-w-xl text-black/65 text-base md:text-lg font-light font-helvetica leading-relaxed tracking-wide">
+                                {milestone.description}
+                            </p>
+                        </article>
+                        </li>
+                    ))
+                }
+            </ol>
         </div>
-        </div>
-        
     </div>
-</div>
+</section>
+
+<style>
+    .timeline-progress {
+        transform: scaleY(0);
+    }
+
+    .timeline-content,
+    .timeline-dot {
+        will-change: transform, opacity, filter;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .timeline-progress {
+            transform: scaleY(1);
+        }
+
+        .timeline-content,
+        .timeline-dot {
+            will-change: auto;
+        }
+    }
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = document.querySelector<HTMLElement>("#journey");
+
+    if (section) {
+        const progress = section.querySelector<HTMLElement>(".timeline-progress");
+        const items = gsap.utils.toArray<HTMLElement>(".timeline-item", section);
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (!reduceMotion) {
+            if (progress) {
+                gsap.to(progress, {
+                    scaleY: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: section.querySelector(".timeline"),
+                        start: "top 72%",
+                        end: "bottom 72%",
+                        scrub: 0.5,
+                    },
+                });
+            }
+
+            items.forEach((item) => {
+                const content = item.querySelector(".timeline-content");
+                const dot = item.querySelector(".timeline-dot");
+
+                gsap.set(content, {
+                    opacity: 0,
+                    y: 32,
+                    scale: 0.985,
+                    filter: "blur(16px)",
+                    transformOrigin: "50% 0%",
+                });
+                gsap.set(dot, {
+                    opacity: 0,
+                    scale: 0.45,
+                    filter: "blur(5px)",
+                });
+
+                gsap.timeline({
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 80%",
+                        toggleActions: "play none none none",
+                    },
+                })
+                    .to(dot, {
+                        opacity: 1,
+                        scale: 1,
+                        filter: "blur(0px)",
+                        duration: 0.6,
+                        ease: "power4.out",
+                    })
+                    .to(
+                        content,
+                        {
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                            filter: "blur(0px)",
+                            duration: 1.05,
+                            ease: "power4.out",
+                            clearProps: "willChange",
+                        },
+                        "-=0.42",
+                    );
+            });
+        }
+    }
+</script>
