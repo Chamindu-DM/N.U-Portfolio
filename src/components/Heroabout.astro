@@ -1,0 +1,387 @@
+---
+import grid from "../assets/Grid.svg";
+import Portrait1 from "../assets/Sumudu_Nadeera.jpg";
+import Portrait2 from "../assets/Nadeera_UdumullageToastMaster.jpg";
+import Portrait3 from "../assets/Nadeera_ToastMaster.jpg";
+import Portrait4 from "../assets/Nadeera_Udumullage.jpg";
+
+// DOM order = stacking order, so Portrait4 is always the top image.
+const portraits = [Portrait1, Portrait3, Portrait2, Portrait4];
+---
+
+<!--
+  One pinned stage that contains BOTH states:
+  - #hero-layer  : title + the 4 portraits in a row
+  - #about-layer : "About." heading, an empty slot (#about-slot) on the left, text on the right
+  While pinned, the scrubbed timeline moves the portraits from the row into the slot.
+-->
+<section
+    id="intro"
+    class="relative w-full overflow-hidden bg-white"
+    style="height: 100vh; height: 100svh;"
+>
+    <img
+        id="intro-grid"
+        src={grid.src}
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover"
+    />
+
+    <!-- ABOUT LAYER (underneath) -->
+    <div
+        id="about-layer"
+        class="absolute inset-0 z-10 flex flex-col px-4 md:px-8 pt-8 pb-6 md:py-12"
+    >
+        <!-- my-auto = vertically centered when it fits, top-aligned when it doesn't -->
+        <div
+            id="about-content"
+            class="w-full my-auto px-4 md:px-16 flex flex-col items-center gap-3 md:gap-12"
+        >
+            <div
+                id="about-title"
+                data-tw
+                class="w-full text-black text-5xl md:text-7xl font-normal font-helvetica leading-[48px] md:leading-[80px]"
+            >
+                About.
+            </div>
+
+            <div
+                class="w-full flex flex-col md:flex-row md:justify-between items-center gap-4 md:gap-8"
+            >
+                <!-- Empty target: the portraits stack into this box -->
+                <div
+                    id="about-slot"
+                    class="shrink-0 w-48 h-48 md:w-64 md:h-64 lg:w-96 lg:h-96"
+                    aria-hidden="true"
+                >
+                </div>
+
+                <div
+                    class="flex-1 max-w-[680px] flex flex-col justify-center items-center gap-3 md:gap-6 tracking-wide"
+                >
+                    <p
+                        class="about-text self-stretch text-justify text-black text-sm/5 md:text-lg/6 font-light font-['Helvetica_Neue']"
+                    >
+                        I'm <span class="font-medium">Nadeera Udumullage</span>,
+                        a Manufacturing and Industrial Engineering undergraduate
+                        at the University of Peradeniya. My interests include
+                        lean manufacturing, simulation modeling, and operations
+                        research, with a focus on improving productivity and
+                        designing efficient, data-driven systems.
+                    </p>
+                    <p
+                        class="about-text self-stretch text-justify text-black text-sm/5 md:text-lg/6 font-light font-['Helvetica_Neue']"
+                    >
+                        Research done apart from real problems loses half its
+                        value, that's why I keep one foot in industry, through
+                        internships and industry projects that keep the work
+                        grounded and actually useful.
+                    </p>
+                    <p
+                        class="about-text self-stretch text-justify text-black text-sm/5 md:text-lg/6 font-light font-['Helvetica_Neue']"
+                    >
+                        If you're sitting on an inefficiency on the floor, a
+                        process that keeps breaking, or a decision that needs
+                        data behind it, that's exactly the kind of problem I
+                        want to dig into. Feel free to get in touch.
+                    </p>
+                    <div
+                        class="about-text self-stretch text-[#FF4F00] text-xl md:text-2xl font-normal italic font-['DM_Serif_Display']"
+                    >
+                        “A permanent corporate role isn't the goal.”
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO LAYER (on top, so the portraits can fly over the about layout) -->
+    <div
+        id="hero-layer"
+        class="absolute inset-0 z-20 flex flex-col justify-center items-center gap-8 md:gap-16 px-4 md:px-8 pointer-events-none"
+    >
+        <!-- Spaces between spans are explicit ({" "}) so HTML whitespace compression can't eat them -->
+        <div id="hero-title" data-tw class="text-center">
+            <span
+                class="text-black text-4xl md:text-7xl font-medium font-helvetica leading-[40px] md:leading-[80px]"
+                >“The two things I'd choose to do,<br />every single day:</span
+            >{" "}<span
+                class="italic text-[#FF4F00] text-4xl md:text-7xl font-normal font-dm-serif leading-[40px] md:leading-[80px]"
+                >teach</span
+            ><span
+                class="text-black text-4xl md:text-7xl font-medium font-helvetica leading-[40px] md:leading-[80px]"
+                >, and</span
+            >{" "}<span
+                class="italic text-[#FF4F00] text-4xl md:text-7xl font-normal font-dm-serif leading-[40px] md:leading-[80px]"
+                >research</span
+            ><span
+                class="text-black text-4xl md:text-7xl font-medium font-helvetica leading-[40px] md:leading-[80px]"
+                >.”</span
+            >
+        </div>
+
+        <div
+            id="hero-images"
+            class="grid grid-cols-2 md:flex md:flex-row justify-center items-center gap-4 md:gap-0 md:-space-x-6"
+        >
+            {
+                portraits.map((p) => (
+                    <img
+                        class="hero-img size-32 md:size-48 object-cover rounded-2xl portrait-shadow"
+                        src={p.src}
+                        alt="Nadeera Udumullage"
+                    />
+                ))
+            }
+        </div>
+    </div>
+</section>
+
+<style>
+    .portrait-shadow {
+        box-shadow:
+            0 48px 48px rgba(180, 180, 180, 0.2),
+            0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    /* Titles stay hidden until the script has split them into characters (no flash). */
+    [data-tw] {
+        visibility: hidden;
+    }
+</style>
+
+<noscript>
+    <style>
+        [data-tw] {
+            visibility: visible !important;
+        }
+    </style>
+</noscript>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
+
+    const stage = document.getElementById("intro") as HTMLElement;
+    const row = document.getElementById("hero-images") as HTMLElement;
+    const slot = document.getElementById("about-slot") as HTMLElement;
+    const aboutContent = document.getElementById("about-content") as HTMLElement;
+    const heroTitle = document.getElementById("hero-title") as HTMLElement;
+    const aboutTitle = document.getElementById("about-title") as HTMLElement;
+    const bg = document.getElementById("intro-grid") as HTMLElement;
+    const imgs = gsap.utils.toArray<HTMLElement>(".hero-img");
+
+    // ---------------------------------------------------------------------
+    // Typewriter text: split into words (kept unbroken) -> characters.
+    // Works across nested spans, so the orange italic words keep their styling.
+    // ---------------------------------------------------------------------
+    function splitChars(root: HTMLElement): HTMLElement[] {
+        const chars: HTMLElement[] = [];
+        root.setAttribute("aria-label", (root.textContent || "").replace(/\s+/g, " ").trim());
+
+        const walk = (node: Node) => {
+            Array.from(node.childNodes).forEach((child) => {
+                if (child.nodeType === Node.TEXT_NODE) {
+                    const frag = document.createDocumentFragment();
+                    (child.textContent || "").split(/(\s+)/).forEach((part) => {
+                        if (!part) return;
+                        if (/^\s+$/.test(part)) {
+                            frag.appendChild(document.createTextNode(" "));
+                            return;
+                        }
+                        const word = document.createElement("span");
+                        word.setAttribute("aria-hidden", "true");
+                        word.style.display = "inline-block";
+                        word.style.whiteSpace = "nowrap";
+                        for (const ch of part) {
+                            const c = document.createElement("span");
+                            c.style.display = "inline-block";
+                            c.textContent = ch;
+                            word.appendChild(c);
+                            chars.push(c);
+                        }
+                        frag.appendChild(word);
+                    });
+                    node.replaceChild(frag, child);
+                } else if (child.nodeType === Node.ELEMENT_NODE && (child as Element).tagName !== "BR") {
+                    walk(child);
+                }
+            });
+        };
+        walk(root);
+        return chars;
+    }
+
+    const heroChars = splitChars(heroTitle);
+    const aboutChars = splitChars(aboutTitle);
+    const hiddenChar = { opacity: 0, y: 14, filter: "blur(12px)" };
+    const shownChar = { opacity: 1, y: 0, filter: "blur(0px)" };
+
+    gsap.set([...heroChars, ...aboutChars], hiddenChar);
+    gsap.set([heroTitle, aboutTitle], { visibility: "visible" });
+
+    // Hero title types itself in on load (time based, not tied to scroll).
+    gsap.to(heroChars, {
+        ...shownChar,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.025,
+        delay: 0.15,
+        onComplete: () => gsap.set(heroChars, { clearProps: "filter,transform,opacity" }),
+    });
+
+    // ---------------------------------------------------------------------
+    // Layout-based centre (relative to the stage). offsetLeft/Top ignore
+    // transforms, so this stays correct even while elements are mid-animation.
+    // ---------------------------------------------------------------------
+    const layoutCenter = (el: HTMLElement) => {
+        let x = 0,
+            y = 0,
+            n: HTMLElement | null = el;
+        while (n && n !== stage) {
+            x += n.offsetLeft;
+            y += n.offsetTop;
+            n = n.offsetParent as HTMLElement | null;
+        }
+        return { x: x + el.offsetWidth / 2, y: y + el.offsetHeight / 2 };
+    };
+
+    const mm = gsap.matchMedia();
+
+    mm.add(
+        {
+            desktop: "(min-width: 768px)", // side-by-side layout: stack lands on the LEFT
+            mobile: "(max-width: 767px)", // stacked layout: stack lands under "About."
+        },
+        (ctx) => {
+            const { desktop } = ctx.conditions as { desktop: boolean };
+
+            // Tuning knobs ---------------------------------------------------
+            const gatherGap = desktop ? 70 : 34; // spacing between images once "gathered"
+            const k = desktop ? 1 : 0.6; // scales the fan offsets on mobile
+            const startRot = desktop ? [4, -4, 4, -4] : [0, 0, 0, 0];
+            // The fan the images make on arrival (DOM order: img1, img3, img2, img4 = top)
+            const fan = [
+                { x: -46, y: 26, r: -9 },
+                { x: 48, y: -18, r: 7 },
+                { x: -20, y: -34, r: -4 },
+                { x: 0, y: 0, r: 0 },
+            ];
+            // ----------------------------------------------------------------
+
+            gsap.set(imgs, { rotation: (i) => startRot[i], transformOrigin: "50% 50%" });
+            gsap.set(".about-text", { opacity: 0, y: 40, filter: "blur(10px)" });
+
+            // Function-based values are re-evaluated on refresh (resize etc.)
+            const gatherX = (i: number) =>
+                layoutCenter(row).x - layoutCenter(imgs[i]).x + (i - 1.5) * gatherGap;
+            const gatherY = (i: number) =>
+                layoutCenter(row).y - layoutCenter(imgs[i]).y + (desktop ? 0 : (i - 1.5) * 6);
+            // Fly to the slot centre, still fanned out
+            const flyX = (i: number) =>
+                layoutCenter(slot).x - layoutCenter(imgs[i]).x + fan[i].x * k;
+            const flyY = (i: number) =>
+                layoutCenter(slot).y - layoutCenter(imgs[i]).y + fan[i].y * k;
+            // Collapse exactly onto the slot centre (so they hide behind the top photo)
+            const hideX = (i: number) => layoutCenter(slot).x - layoutCenter(imgs[i]).x;
+            const hideY = (i: number) => layoutCenter(slot).y - layoutCenter(imgs[i]).y;
+            const growScale = () => slot.offsetWidth / imgs[3].offsetWidth;
+
+            // If the about content is taller than the screen (small phones), pan it up at the end
+            const overflow = () =>
+                Math.max(0, aboutContent.offsetTop + aboutContent.offsetHeight + 24 - stage.clientHeight);
+
+            // Timeline clock (units are relative; scrub maps them onto scroll distance)
+            const GATHER = { dur: 0.4, stagger: 0.03 };
+            const FLY = { dur: 0.6, stagger: 0.04 };
+            const tFly = GATHER.dur + GATHER.stagger * 3; // 0.49
+            const tGrow = tFly + FLY.dur + FLY.stagger * 3; // 1.21
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: stage,
+                    start: "top top",
+                    end: "+=320%",
+                    pin: true,
+                    scrub: 1, // 1s of smoothing = the "buttery" catch-up feel
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true,
+                },
+            });
+
+            // 1) Hero title lifts away + blurs; grid fades into the white about page
+            tl.to(
+                heroTitle,
+                { opacity: 0, y: -90, filter: "blur(16px)", duration: 0.3, ease: "power2.out" },
+                0
+            );
+            tl.to(bg, { opacity: 0, duration: 1.2, ease: "none" }, 0);
+
+            // 2) Gather: close the gaps into a tight cluster
+            tl.to(
+                imgs,
+                {
+                    x: gatherX,
+                    y: gatherY,
+                    rotation: (i) => startRot[i] * 0.4,
+                    duration: GATHER.dur,
+                    ease: "power2.inOut",
+                    stagger: GATHER.stagger,
+                },
+                0
+            );
+
+            // 3) Fly to the left slot and fan out
+            tl.to(
+                imgs,
+                {
+                    x: flyX,
+                    y: flyY,
+                    rotation: (i) => fan[i].r,
+                    duration: FLY.dur,
+                    ease: "power3.inOut",
+                    stagger: FLY.stagger,
+                },
+                tFly
+            );
+
+            // 4) Only Portrait4 grows; the other three slide behind it and straighten
+            tl.to(imgs[3], { scale: growScale, duration: 0.5, ease: "power3.inOut" }, tGrow);
+            tl.to(
+                imgs.slice(0, 3),
+                { x: hideX, y: hideY, rotation: 0, duration: 0.5, ease: "power3.inOut" },
+                tGrow
+            );
+
+            // 5) "About." types in (scrubbed), then the copy fades up
+            tl.to(
+                aboutChars,
+                { ...shownChar, duration: 0.2, ease: "power2.out", stagger: 0.06 },
+                tGrow - 0.3
+            );
+            tl.to(
+                ".about-text",
+                { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power2.out", stagger: 0.12 },
+                tGrow
+            );
+
+            // 6) Small screens: pan everything up so the last lines are readable
+            if (overflow() > 0) {
+                tl.to(
+                    [aboutContent, ...imgs],
+                    { y: () => "-=" + overflow(), duration: 0.6, ease: "none" },
+                    "+=0.1"
+                );
+            }
+
+            // Short rest at the end before unpinning
+            tl.to({}, { duration: 0.15 });
+        }
+    );
+
+    // Fonts/images change layout once loaded; re-measure.
+    window.addEventListener("load", () => ScrollTrigger.refresh());
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+</script>
